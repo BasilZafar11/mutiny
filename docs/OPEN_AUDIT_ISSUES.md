@@ -2,7 +2,7 @@
 
 Lightweight index of GitHub issues filed from the Mutiny deep audit (findings MUT-001–MUT-068). This is **not** another audit.
 
-Verified against repo `main` (`f552b23`, after contributor PRs #83–#86, #88, #89; #87 reverted in #90).
+Verified against repo `main` (`61d87b5`, after contributor PRs #83–#86, #88, #89, #91; #87 reverted in #90).
 
 **How to pick work**
 
@@ -14,7 +14,7 @@ Verified against repo `main` (`f552b23`, after contributor PRs #83–#86, #88, #
 
 Existing issues that already covered a finding were **not** duplicated: redaction **[#16](https://github.com/CodewithJha/mutiny/issues/16)**, Dependabot/CODEOWNERS **[#20](https://github.com/CodewithJha/mutiny/issues/20)**, `mutiny --version` **[#26](https://github.com/CodewithJha/mutiny/issues/26)** (shipped).
 
-**Shipped from later contributor PRs:** [#66](https://github.com/CodewithJha/mutiny/issues/66) / MUT-017 ([#83](https://github.com/CodewithJha/mutiny/pull/83)), [#79](https://github.com/CodewithJha/mutiny/issues/79) / MUT-037 ([#84](https://github.com/CodewithJha/mutiny/pull/84)), [#72](https://github.com/CodewithJha/mutiny/issues/72) / MUT-024 ([#85](https://github.com/CodewithJha/mutiny/pull/85)), [#73](https://github.com/CodewithJha/mutiny/issues/73) / MUT-025 ([#86](https://github.com/CodewithJha/mutiny/pull/86)), [#71](https://github.com/CodewithJha/mutiny/issues/71) / MUT-023 ([#88](https://github.com/CodewithJha/mutiny/pull/88); [#87](https://github.com/CodewithJha/mutiny/pull/87) was reverted in [#90](https://github.com/CodewithJha/mutiny/pull/90)), [#68](https://github.com/CodewithJha/mutiny/issues/68) / MUT-020 ([#89](https://github.com/CodewithJha/mutiny/pull/89)).
+**Shipped from later contributor PRs:** [#66](https://github.com/CodewithJha/mutiny/issues/66) / MUT-017 ([#83](https://github.com/CodewithJha/mutiny/pull/83)), [#79](https://github.com/CodewithJha/mutiny/issues/79) / MUT-037 ([#84](https://github.com/CodewithJha/mutiny/pull/84)), [#72](https://github.com/CodewithJha/mutiny/issues/72) / MUT-024 ([#85](https://github.com/CodewithJha/mutiny/pull/85)), [#73](https://github.com/CodewithJha/mutiny/issues/73) / MUT-025 ([#86](https://github.com/CodewithJha/mutiny/pull/86)), [#71](https://github.com/CodewithJha/mutiny/issues/71) / MUT-023 ([#88](https://github.com/CodewithJha/mutiny/pull/88); [#87](https://github.com/CodewithJha/mutiny/pull/87) was reverted in [#90](https://github.com/CodewithJha/mutiny/pull/90)), [#68](https://github.com/CodewithJha/mutiny/issues/68) / MUT-020 ([#89](https://github.com/CodewithJha/mutiny/pull/89)), [#57](https://github.com/CodewithJha/mutiny/issues/57) / MUT-003, MUT-014, MUT-034 ([#91](https://github.com/CodewithJha/mutiny/pull/91)).
 
 ---
 
@@ -22,7 +22,6 @@ Existing issues that already covered a finding were **not** duplicated: redactio
 
 | Issue | Finding | Description |
 |---|---|---|
-| [#57](https://github.com/CodewithJha/mutiny/issues/57) | MUT-003, MUT-014, MUT-034 | `mutiny run` tracebacks on adapter/config errors; `ToolsNotObservableError` reports `generations_completed=0`; missing-policy copy differs from `mutiny test`. Related: [#27](https://github.com/CodewithJha/mutiny/issues/27). |
 | [#58](https://github.com/CodewithJha/mutiny/issues/58) | MUT-004, MUT-005 | `OPENAI_API_KEY` selects Featherless mutator; garbage `MUTINY_LLM_TIMEOUT` 500s `/api/health`. |
 | [#60](https://github.com/CodewithJha/mutiny/issues/60) | MUT-007 | Policies page still calls 410 FS APIs. Related empty-state copy: [#47](https://github.com/CodewithJha/mutiny/issues/47). |
 | [#61](https://github.com/CodewithJha/mutiny/issues/61) | MUT-008, MUT-019 | Hosted minimize/save defaults to `refund_limit`; successful minimize overwrites original genome. Related name default: [#36](https://github.com/CodewithJha/mutiny/issues/36). |
