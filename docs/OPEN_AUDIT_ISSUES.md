@@ -2,7 +2,7 @@
 
 Lightweight index of GitHub issues filed from the Mutiny deep audit (findings MUT-001–MUT-068). This is **not** another audit.
 
-Verified against repo `main` (`752f10c`, after contributor PRs #83–#86, #88, #89, #91–#94; #87 reverted in #90).
+Verified against repo `main` (`fdf815c`, after contributor PRs #83–#86, #88, #89, #91–#95; #87 reverted in #90).
 
 **How to pick work**
 
@@ -14,7 +14,7 @@ Verified against repo `main` (`752f10c`, after contributor PRs #83–#86, #88, #
 
 Existing issues that already covered a finding were **not** duplicated: redaction **[#16](https://github.com/CodewithJha/mutiny/issues/16)**, Dependabot/CODEOWNERS **[#20](https://github.com/CodewithJha/mutiny/issues/20)**, `mutiny --version` **[#26](https://github.com/CodewithJha/mutiny/issues/26)** (shipped).
 
-**Shipped from later contributor PRs:** [#66](https://github.com/CodewithJha/mutiny/issues/66) / MUT-017 ([#83](https://github.com/CodewithJha/mutiny/pull/83)), [#79](https://github.com/CodewithJha/mutiny/issues/79) / MUT-037 ([#84](https://github.com/CodewithJha/mutiny/pull/84)), [#72](https://github.com/CodewithJha/mutiny/issues/72) / MUT-024 ([#85](https://github.com/CodewithJha/mutiny/pull/85)), [#73](https://github.com/CodewithJha/mutiny/issues/73) / MUT-025 ([#86](https://github.com/CodewithJha/mutiny/pull/86)), [#71](https://github.com/CodewithJha/mutiny/issues/71) / MUT-023 ([#88](https://github.com/CodewithJha/mutiny/pull/88); [#87](https://github.com/CodewithJha/mutiny/pull/87) was reverted in [#90](https://github.com/CodewithJha/mutiny/pull/90)), [#68](https://github.com/CodewithJha/mutiny/issues/68) / MUT-020 ([#89](https://github.com/CodewithJha/mutiny/pull/89)), [#57](https://github.com/CodewithJha/mutiny/issues/57) / MUT-003, MUT-014, MUT-034 ([#91](https://github.com/CodewithJha/mutiny/pull/91)), [#67](https://github.com/CodewithJha/mutiny/issues/67) / MUT-018 ([#93](https://github.com/CodewithJha/mutiny/pull/93)), [#82](https://github.com/CodewithJha/mutiny/issues/82) / MUT-043, MUT-044, MUT-053 ([#92](https://github.com/CodewithJha/mutiny/pull/92)), [#80](https://github.com/CodewithJha/mutiny/issues/80) / MUT-041 ([#94](https://github.com/CodewithJha/mutiny/pull/94)).
+**Shipped from later contributor PRs:** [#66](https://github.com/CodewithJha/mutiny/issues/66) / MUT-017 ([#83](https://github.com/CodewithJha/mutiny/pull/83)), [#79](https://github.com/CodewithJha/mutiny/issues/79) / MUT-037 ([#84](https://github.com/CodewithJha/mutiny/pull/84)), [#72](https://github.com/CodewithJha/mutiny/issues/72) / MUT-024 ([#85](https://github.com/CodewithJha/mutiny/pull/85)), [#73](https://github.com/CodewithJha/mutiny/issues/73) / MUT-025 ([#86](https://github.com/CodewithJha/mutiny/pull/86)), [#71](https://github.com/CodewithJha/mutiny/issues/71) / MUT-023 ([#88](https://github.com/CodewithJha/mutiny/pull/88); [#87](https://github.com/CodewithJha/mutiny/pull/87) was reverted in [#90](https://github.com/CodewithJha/mutiny/pull/90)), [#68](https://github.com/CodewithJha/mutiny/issues/68) / MUT-020 ([#89](https://github.com/CodewithJha/mutiny/pull/89)), [#57](https://github.com/CodewithJha/mutiny/issues/57) / MUT-003, MUT-014, MUT-034 ([#91](https://github.com/CodewithJha/mutiny/pull/91)), [#67](https://github.com/CodewithJha/mutiny/issues/67) / MUT-018 ([#93](https://github.com/CodewithJha/mutiny/pull/93)), [#82](https://github.com/CodewithJha/mutiny/issues/82) / MUT-043, MUT-044, MUT-053 ([#92](https://github.com/CodewithJha/mutiny/pull/92)), [#80](https://github.com/CodewithJha/mutiny/issues/80) / MUT-041 ([#94](https://github.com/CodewithJha/mutiny/pull/94)), [#64](https://github.com/CodewithJha/mutiny/issues/64) / MUT-013 ([#95](https://github.com/CodewithJha/mutiny/pull/95)).
 
 ---
 
@@ -38,8 +38,6 @@ Existing issues that already covered a finding were **not** duplicated: redactio
 | [#56](https://github.com/CodewithJha/mutiny/issues/56) | MUT-002 | Next.js locked at 15.5.22 (patch floor 15.5.24). Mutiny-specific AVIF path not proven (MUT-056). |
 | [#16](https://github.com/CodewithJha/mutiny/issues/16) *(existing)* | MUT-011 | Expand secret redaction keys / `sk-` patterns. |
 | [#63](https://github.com/CodewithJha/mutiny/issues/63) | MUT-012 | Compose/Railway: root, install-at-boot, full-repo bind-mount. |
-| [#64](https://github.com/CodewithJha/mutiny/issues/64) | MUT-013 | Pin Actions to SHAs; least-privilege CI `permissions`. Dependabot/CODEOWNERS already [#20](https://github.com/CodewithJha/mutiny/issues/20). |
-
 CSRF, `/_next/image` AVIF reachability, missing CSP, and similar items are **deferred** (needs verification). Do not file “confirmed vuln” PRs for those.
 
 ---
