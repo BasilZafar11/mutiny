@@ -38,6 +38,7 @@ Existing issues that already covered a finding were **not** duplicated: redactio
 | [#56](https://github.com/CodewithJha/mutiny/issues/56) | MUT-002 | Next.js locked at 15.5.22 (patch floor 15.5.24). Mutiny-specific AVIF path not proven (MUT-056). |
 | [#16](https://github.com/CodewithJha/mutiny/issues/16) *(existing)* | MUT-011 | Expand secret redaction keys / `sk-` patterns. |
 | [#63](https://github.com/CodewithJha/mutiny/issues/63) | MUT-012 | Compose/Railway: root, install-at-boot, full-repo bind-mount. |
+
 CSRF, `/_next/image` AVIF reachability, missing CSP, and similar items are **deferred** (needs verification). Do not file “confirmed vuln” PRs for those.
 
 ---
