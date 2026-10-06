@@ -21,6 +21,7 @@ class CampaignConfig(BaseModel):
     max_turns: int = Field(default=4, ge=1, le=6)
     stop_on_first_violation: bool = True
     wall_clock_seconds: float | None = Field(default=None, gt=0)
+    step_timeout_seconds: float = Field(default=60.0, gt=0)
 
 
 def default_policy_seeds(

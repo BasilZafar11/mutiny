@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import time
+
 import pytest
 
 from mutiny_core.adapter import (
@@ -99,6 +101,21 @@ def test_tools_not_observable_fails_trace():
         execute_conversation(
             adapter, ["hi"], candidate_id="c", session_id="s"
         )
+
+
+def test_execute_conversation_times_out_slow_step():
+    class SlowAdapter(_RecordingAdapter):
+        def step(self, session_id: str, user_message: str) -> AdapterTurnResult:
+            time.sleep(0.2)
+            return super().step(session_id, user_message)
+
+    started = time.monotonic()
+    trace = execute_conversation(
+        SlowAdapter(), ["hello"], candidate_id="slow", step_timeout_seconds=0.01
+    )
+    assert time.monotonic() - started < 0.15
+    assert trace.status == "error"
+    assert trace.error is not None and trace.error.startswith("adapter_step_timeout:")
 
 
 def test_target_adapter_is_abstract():

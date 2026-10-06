@@ -2,10 +2,11 @@
 
 from __future__ import annotations
 
+import threading
 import uuid
 
 from mutiny_core.adapter.port import TargetAdapter, ToolsNotObservableError
-from mutiny_core.trace.models import ExecutionTrace, TraceTurn
+from mutiny_core.trace.models import AdapterTurnResult, ExecutionTrace, TraceTurn
 
 
 def execute_conversation(
@@ -14,6 +15,7 @@ def execute_conversation(
     *,
     candidate_id: str,
     session_id: str | None = None,
+    step_timeout_seconds: float = 60.0,
 ) -> ExecutionTrace:
     """Reset adapter, step each user message, aggregate an ExecutionTrace.
 
@@ -30,7 +32,27 @@ def execute_conversation(
         adapter.reset(sid)
         for user_message in messages:
             try:
-                result = adapter.step(sid, user_message)
+                result: AdapterTurnResult | None = None
+                error: BaseException | None = None
+
+                def run_step() -> None:
+                    nonlocal result, error
+                    try:
+                        result = adapter.step(sid, user_message)
+                    except BaseException as exc:  # propagate adapter exceptions
+                        error = exc
+
+                # ponytail: a timed-out worker keeps using the shared adapter.
+                worker = threading.Thread(target=run_step, daemon=True)
+                worker.start()
+                worker.join(step_timeout_seconds)
+                if worker.is_alive():
+                    trace.status = "error"
+                    trace.error = f"adapter_step_timeout: exceeded {step_timeout_seconds:g}s"
+                    return trace
+                if error is not None:
+                    raise error
+                assert result is not None
             except ToolsNotObservableError:
                 raise
             turn = TraceTurn(
