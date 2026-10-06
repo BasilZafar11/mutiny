@@ -2,12 +2,11 @@
 
 from __future__ import annotations
 
-import uuid
-import queue
 import threading
+import uuid
 
 from mutiny_core.adapter.port import TargetAdapter, ToolsNotObservableError
-from mutiny_core.trace.models import ExecutionTrace, TraceTurn
+from mutiny_core.trace.models import AdapterTurnResult, ExecutionTrace, TraceTurn
 
 
 def execute_conversation(
@@ -33,27 +32,27 @@ def execute_conversation(
         adapter.reset(sid)
         for user_message in messages:
             try:
-                result_queue: queue.Queue[tuple[bool, object]] = queue.Queue(maxsize=1)
+                result: AdapterTurnResult | None = None
+                error: BaseException | None = None
 
                 def run_step() -> None:
+                    nonlocal result, error
                     try:
-                        result_queue.put((True, adapter.step(sid, user_message)))
+                        result = adapter.step(sid, user_message)
                     except BaseException as exc:  # propagate adapter exceptions
-                        result_queue.put((False, exc))
+                        error = exc
 
-                threading.Thread(target=run_step, daemon=True).start()
-                try:
-                    succeeded, result = result_queue.get(timeout=step_timeout_seconds)
-                except queue.Empty:
+                # ponytail: a timed-out worker keeps using the shared adapter.
+                worker = threading.Thread(target=run_step, daemon=True)
+                worker.start()
+                worker.join(step_timeout_seconds)
+                if worker.is_alive():
                     trace.status = "error"
                     trace.error = f"adapter_step_timeout: exceeded {step_timeout_seconds:g}s"
                     return trace
-                if not succeeded:
-                    if isinstance(result, ToolsNotObservableError):
-                        raise result
-                    if isinstance(result, BaseException):
-                        raise result
-                    raise RuntimeError("adapter step failed")
+                if error is not None:
+                    raise error
+                assert result is not None
             except ToolsNotObservableError:
                 raise
             turn = TraceTurn(

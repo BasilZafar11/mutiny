@@ -92,22 +92,7 @@ class CampaignEngine:
 
             for gen in range(cfg.max_generations):
                 if self._budget_exceeded(started):
-                    best = (
-                        max(all_scored, key=lambda c: c.fitness) if all_scored else None
-                    )
-                    self._emit(
-                        EventType.CAMPAIGN_COMPLETED,
-                        {"reason": "budget", "generations": generations_done},
-                    )
-                    return CampaignResult(
-                        status="completed",
-                        reason="budget",
-                        generations_completed=generations_done,
-                        candidates=all_scored,
-                        best=best,
-                        violated=any(c.violated for c in all_scored),
-                        events_emitted=self._events_emitted,
-                    )
+                    return self._budget_result(all_scored, generations_done)
 
                 self._emit(
                     EventType.GENERATION_STARTED,
@@ -121,11 +106,6 @@ class CampaignEngine:
                     candidate = self._evaluate_genome(genome)
                     scored.append(candidate)
                     all_scored.append(candidate)
-
-                    # A single step is bounded by step_timeout_seconds. Stop at
-                    # the next candidate boundary when the overall budget expires.
-                    if self._budget_exceeded(started):
-                        return self._budget_result(all_scored, generations_done)
 
                     if candidate.violated and cfg.stop_on_first_violation:
                         self._emit(

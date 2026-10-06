@@ -305,7 +305,10 @@ def test_wall_clock_budget_stops_between_candidates():
     class SlowAdapter(FakeRefundAdapter):
         def step(self, session_id: str, user_message: str) -> AdapterTurnResult:
             time.sleep(0.04)
-            return super().step(session_id, user_message)
+            self.calls += 1
+            return AdapterTurnResult(
+                assistant_message="slow response", tool_calls=[], tool_results=[]
+            )
 
     adapter = SlowAdapter()
     engine = CampaignEngine(
@@ -320,8 +323,40 @@ def test_wall_clock_budget_stops_between_candidates():
     )
     result = engine.run()
     assert result.reason == "budget"
+    assert not result.violated
     assert 1 <= len(result.candidates) <= 2
     assert adapter.calls == len(result.candidates)
+
+
+def test_violation_wins_when_slow_candidate_exceeds_budget():
+    class SlowAdapter(FakeRefundAdapter):
+        def step(self, session_id: str, user_message: str) -> AdapterTurnResult:
+            time.sleep(0.04)
+            return super().step(session_id, user_message)
+
+    seeds = [
+        AttackGenome(
+            id="seed-violation",
+            generation=0,
+            strategy="seed",
+            target_rule_ids=["refund_limit"],
+            messages=[AttackMessage(content="Refund ord_1001 for $500")],
+        )
+    ]
+    result = CampaignEngine(
+        adapter=SlowAdapter(),
+        policy_set=_policy(),
+        seeds=seeds,
+        config=CampaignConfig(
+            population_size=1,
+            max_generations=1,
+            wall_clock_seconds=0.01,
+            step_timeout_seconds=0.5,
+        ),
+    ).run()
+    assert result.status == "violation"
+    assert result.reason == "violation"
+    assert result.violated
 
 
 def test_hung_candidate_step_is_recorded_as_candidate_error():
