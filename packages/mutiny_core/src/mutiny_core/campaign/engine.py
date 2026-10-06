@@ -116,9 +116,16 @@ class CampaignEngine:
 
                 scored: list[ScoredCandidate] = []
                 for genome in population:
+                    if self._budget_exceeded(started):
+                        return self._budget_result(all_scored, generations_done)
                     candidate = self._evaluate_genome(genome)
                     scored.append(candidate)
                     all_scored.append(candidate)
+
+                    # A single step is bounded by step_timeout_seconds. Stop at
+                    # the next candidate boundary when the overall budget expires.
+                    if self._budget_exceeded(started):
+                        return self._budget_result(all_scored, generations_done)
 
                     if candidate.violated and cfg.stop_on_first_violation:
                         self._emit(
@@ -241,6 +248,7 @@ class CampaignEngine:
             messages,
             candidate_id=genome.id,
             session_id=session_id,
+            step_timeout_seconds=self.config.step_timeout_seconds,
         )
         context = self.adapter.context(session_id)
         hits = self._evaluator.evaluate(self.policy_set, trace, context)
@@ -323,6 +331,24 @@ class CampaignEngine:
         if limit is None:
             return False
         return (time.monotonic() - started) >= limit
+
+    def _budget_result(
+        self, candidates: list[ScoredCandidate], generations_done: int
+    ) -> CampaignResult:
+        best = max(candidates, key=lambda c: c.fitness) if candidates else None
+        self._emit(
+            EventType.CAMPAIGN_COMPLETED,
+            {"reason": "budget", "generations": generations_done},
+        )
+        return CampaignResult(
+            status="completed",
+            reason="budget",
+            generations_completed=generations_done,
+            candidates=candidates,
+            best=best,
+            violated=any(c.violated for c in candidates),
+            events_emitted=self._events_emitted,
+        )
 
     def _emit(self, event_type: EventType, payload: dict[str, Any]) -> None:
         self._events_emitted += 1
