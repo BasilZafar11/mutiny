@@ -6,14 +6,23 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+    groups:
+      uv:
+        patterns: ["*"]
 
   - package-ecosystem: "npm"
     directory: "/apps/web"
     schedule:
       interval: "weekly"
+    groups:
+      npm:
+        patterns: ["*"]
 
   # Keep the pinned commits in .github/workflows up to date.
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
       interval: "weekly"
+    groups:
+      github-actions:
+        patterns: ["*"]
