@@ -6,6 +6,8 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+    # Published packages: bump uv.lock only, never raise pyproject lower bounds.
+    versioning-strategy: "lockfile-only"
     groups:
       uv:
         patterns: ["*"]
@@ -17,6 +19,18 @@ updates:
     groups:
       npm:
         patterns: ["*"]
+    # Majors for these are deliberate migrations (TS7, Node 26 types, Next 16, ESLint 10).
+    ignore:
+      - dependency-name: "typescript"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "@types/node"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "next"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "eslint"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "eslint-config-next"
+        update-types: ["version-update:semver-major"]
 
   # Keep the pinned commits in .github/workflows up to date.
   - package-ecosystem: "github-actions"
