@@ -14,9 +14,9 @@ _project_root: Path | None = None
 def ensure_project_on_path(project_root: str | Path) -> None:
     """Select a project for subsequent local imports in this process.
 
-    Switching projects clears modules from the previous root, including local
-    helper packages. Existing object references remain valid, but deferred
-    imports use the currently selected project.
+    Switching projects clears modules imported directly from the previous root,
+    including local helper packages. Dependencies on separate import paths keep
+    their identity. Deferred imports use the currently selected project.
     """
     global _project_root
     root = Path(project_root).resolve()
@@ -27,8 +27,14 @@ def ensure_project_on_path(project_root: str | Path) -> None:
             module_file = getattr(module, "__file__", None)
             if module_file:
                 paths.append(module_file)
-            if any(Path(path).resolve().is_relative_to(_project_root) for path in paths):
-                names.append(name)
+            top = name.partition(".")[0]
+            for path in paths:
+                resolved = Path(path).resolve()
+                if resolved.is_relative_to(_project_root):
+                    first = resolved.relative_to(_project_root).parts[:1]
+                    if first in ((top,), (f"{top}.py",)):
+                        names.append(name)
+                        break
         # Collect first: namespace package paths can depend on cached parents.
         for name in names:
             sys.modules.pop(name, None)

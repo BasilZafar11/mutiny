@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import importlib
 import sys
 from collections.abc import Iterator
 from pathlib import Path
@@ -15,7 +16,10 @@ from mutiny_openai_agents import loader
 def isolate_project_imports(monkeypatch: pytest.MonkeyPatch) -> Iterator[None]:
     monkeypatch.setattr(sys, "path", sys.path.copy())
     monkeypatch.setattr(loader, "_project_root", None, raising=False)
-    names = {"agent", "project_helpers", "project_helpers.values", "mutiny_project_adapter"}
+    names = {
+        "agent", "project_helpers", "project_helpers.values",
+        "mutiny_project_adapter", "fakesdk",
+    }
     saved = {name: sys.modules[name] for name in names if name in sys.modules}
     for name in names:
         sys.modules.pop(name, None)
@@ -101,3 +105,42 @@ def test_module_attribute_refs_follow_selected_project(tmp_path: Path) -> None:
             )
         loader.ensure_project_on_path(project)
         assert loader.load_agent_from_ref("agent:support_agent").name == marker
+
+
+@pytest.mark.parametrize(
+    "dependency_path",
+    [".venv/lib/python3.12/site-packages", "packages/fakesdk/src"],
+)
+def test_switch_preserves_dependencies_on_separate_import_paths(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, dependency_path: str
+) -> None:
+    first = make_project(tmp_path / "first", "A")
+    second = make_project(tmp_path / "second", "B")
+    dependency_root = first / dependency_path
+    package = dependency_root / "fakesdk"
+    package.mkdir(parents=True)
+    (package / "__init__.py").write_text("class Agent: pass\n", encoding="utf-8")
+    monkeypatch.syspath_prepend(str(dependency_root))
+
+    assert loader.load_adapter_factory(first)() == "A"
+    sdk = importlib.import_module("fakesdk")
+    agent = sdk.Agent()
+    assert loader.load_adapter_factory(second)() == "B"
+
+    assert sys.modules.get("fakesdk") is sdk
+    assert importlib.import_module("fakesdk") is sdk
+    assert isinstance(agent, sdk.Agent)
+
+
+def test_switch_from_checkout_preserves_mutiny_and_pydantic(tmp_path: Path) -> None:
+    import mutiny_core
+    import pydantic
+
+    checkout = Path(__file__).resolve().parents[2]
+    loader.ensure_project_on_path(checkout)
+    loader.ensure_project_on_path(tmp_path)
+
+    assert sys.modules.get("mutiny_core") is mutiny_core
+    assert sys.modules.get("pydantic") is pydantic
+    assert importlib.import_module("mutiny_core") is mutiny_core
+    assert importlib.import_module("pydantic") is pydantic
