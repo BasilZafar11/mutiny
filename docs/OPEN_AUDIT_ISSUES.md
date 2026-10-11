@@ -55,6 +55,7 @@ CSRF, `/_next/image` AVIF reachability, missing CSP, and similar items are **def
 |---|---|---|
 | [#74](https://github.com/CodewithJha/mutiny/issues/74) | MUT-026 | Hosted UI has zero tests (tsc/build only). |
 | [#75](https://github.com/CodewithJha/mutiny/issues/75) | MUT-027, MUT-048, MUT-052 | Weak CLI/loader unit coverage; reliability job is boundary-seed smoke; extract tests JSON-string only. |
+
 Branch protection on `main` (MUT-029) is maintainer-only — not filed for contributors.
 
 ---
