@@ -8,12 +8,40 @@ from collections.abc import Callable
 from pathlib import Path
 from typing import Any
 
+_project_root: Path | None = None
+
 
 def ensure_project_on_path(project_root: str | Path) -> None:
-    """Prepend a customer project root to ``sys.path`` for local imports."""
-    root = str(Path(project_root).resolve())
-    if root not in sys.path:
-        sys.path.insert(0, root)
+    """Select a project for subsequent local imports in this process.
+
+    Switching projects clears modules from the previous root, including local
+    helper packages. Existing object references remain valid, but deferred
+    imports use the currently selected project.
+    """
+    global _project_root
+    root = Path(project_root).resolve()
+    if _project_root is not None and _project_root != root:
+        names = []
+        for name, module in list(sys.modules.items()):
+            paths = list(getattr(module, "__path__", ()))
+            module_file = getattr(module, "__file__", None)
+            if module_file:
+                paths.append(module_file)
+            if any(Path(path).resolve().is_relative_to(_project_root) for path in paths):
+                names.append(name)
+        # Collect first: namespace package paths can depend on cached parents.
+        for name in names:
+            sys.modules.pop(name, None)
+        previous = str(_project_root)
+        if previous in sys.path:
+            sys.path.remove(previous)
+
+    root_path = str(root)
+    if root_path in sys.path:
+        sys.path.remove(root_path)
+    sys.path.insert(0, root_path)
+    _project_root = root
+    importlib.invalidate_caches()
 
 
 def load_callable(ref: str) -> Any:
@@ -72,7 +100,7 @@ def load_adapter_factory(
             f"missing {adapter_file}; run `mutiny init` first"
         )
 
-    # Load as a unique module from file path so `.mutiny` need not be a package
+    # Load directly from the file so `.mutiny` need not be a package.
     spec_name = "mutiny_project_adapter"
     import importlib.util
 
