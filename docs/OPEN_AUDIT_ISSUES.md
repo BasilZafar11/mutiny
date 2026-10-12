@@ -25,6 +25,7 @@ Existing issues that already covered a finding were **not** duplicated: redactio
 | [#58](https://github.com/CodewithJha/mutiny/issues/58) | MUT-004, MUT-005 | `OPENAI_API_KEY` selects Featherless mutator; garbage `MUTINY_LLM_TIMEOUT` 500s `/api/health`. |
 | [#60](https://github.com/CodewithJha/mutiny/issues/60) | MUT-007 | Policies page still calls 410 FS APIs. Related empty-state copy: [#47](https://github.com/CodewithJha/mutiny/issues/47). |
 | [#61](https://github.com/CodewithJha/mutiny/issues/61) | MUT-008, MUT-019 | Hosted minimize/save defaults to `refund_limit`; successful minimize overwrites original genome. Related name default: [#36](https://github.com/CodewithJha/mutiny/issues/36). |
+
 ---
 
 ## Security
