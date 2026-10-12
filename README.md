@@ -422,17 +422,17 @@ Thanks to everyone who has contributed. New faces welcome — pick up a [`good f
                 </a>
             </td>
             <td align="center">
-                <a href="https://github.com/adity982">
-                    <img src="https://github.com/adity982.png?size=100" width="100" height="100" alt="adity982"/>
-                    <br />
-                    <sub><b>adity982</b></sub>
-                </a>
-            </td>
-            <td align="center">
                 <a href="https://github.com/BasilZafar11">
                     <img src="https://github.com/BasilZafar11.png?size=100" width="100" height="100" alt="BasilZafar11"/>
                     <br />
                     <sub><b>BasilZafar11</b></sub>
+                </a>
+            </td>
+            <td align="center">
+                <a href="https://github.com/adity982">
+                    <img src="https://github.com/adity982.png?size=100" width="100" height="100" alt="adity982"/>
+                    <br />
+                    <sub><b>adity982</b></sub>
                 </a>
             </td>
         </tr>
