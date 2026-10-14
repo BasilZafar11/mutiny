@@ -28,7 +28,7 @@ From the monorepo root (editable):
 
 ```bash
 pip install -e packages/mutiny_core -e packages/mutiny_openai_agents -e packages/mutiny_cli
-# or: uv sync --extra dev
+# or: uv sync --group dev
 ```
 
 </details>

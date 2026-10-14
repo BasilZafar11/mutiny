@@ -164,13 +164,14 @@ pip install \
 ```bash
 git clone https://github.com/CodewithJha/mutiny.git
 cd mutiny
-uv sync --extra dev
+uv sync --group dev
 uv run mutiny --help
 ```
 
 ### Contributors: editable `pip` (per package)
 
-Root `pip install -e .` does **not** install the user CLI wheel (workspace root is not published). Install siblings together so deps resolve:
+The root is an unversioned uv workspace, not an installable package. Use
+`uv sync --group dev`, or install siblings together so dependencies resolve:
 
 ```bash
 python3 -m venv .venv
@@ -182,6 +183,14 @@ mutiny --help
 ```
 
 ### Optional Hosted (API + UI)
+
+The Hosted API is **unreleased**: its internal `mutiny-api` version is independent
+of the published CLI/Core release. API logs, health responses, and headers read
+that version from installed package metadata. `mutiny db` requires this
+source/workspace package; `pip install mutiny-ai` does not include it.
+
+Contributor dependencies now use `uv sync --group dev` (the root has no package
+extras). Optional LLM dependencies use `uv sync --group llm`.
 
 One command from the repo root:
 
@@ -256,8 +265,8 @@ With Hosted running (`./scripts/dev.sh`), use `mutiny run --hosted` for the API 
 
 | Symptom | What to check |
 |---|---|
-| `mutiny: command not found` | Run via `uv run mutiny …` from the repo after `uv sync --extra dev`, or activate the venv where you `pip install -e`’d the packages |
-| `pip install -e .` at repo root fails | Expected — use `uv sync --extra dev` or the per-package editable installs above |
+| `mutiny: command not found` | Run via `uv run mutiny …` from the repo after `uv sync --group dev`, or activate the venv where you `pip install -e`’d the packages |
+| `pip install -e .` at repo root fails | Expected — use `uv sync --group dev` or the per-package editable installs above |
 | Hosted UI won’t start | Install Node ≥ 20, then `cd apps/web && npm install` |
 | Port already in use | Free **8000** (API) and **3000** (UI), or change the ports in `scripts/dev.sh` / Next |
 | API looks down | `curl -sf http://127.0.0.1:8000/api/health` — expect JSON with a healthy status |
@@ -361,7 +370,7 @@ Full detail: [`docs/ROADMAP.md`](./docs/ROADMAP.md) · tracked as [🚀 Roadmap 
 PRs welcome — especially adapters, policy packs, tests, docs, and a11y. Newcomers: start with a [`good first issue`](https://github.com/CodewithJha/mutiny/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) (fork → PR in about 30 minutes).
 
 ```bash
-uv sync --extra dev
+uv sync --group dev
 uv run pytest tests/unit -q
 ```
 

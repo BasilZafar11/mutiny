@@ -33,7 +33,7 @@ jobs:
         run: uv python install 3.11
 
       - name: Sync workspace
-        run: uv sync --locked --extra dev
+        run: uv sync --locked --group dev
 
       - name: Python lint
         run: uv run --locked ruff check
@@ -60,7 +60,7 @@ jobs:
         run: uv python install ${{ matrix.python-version }}
 
       - name: Sync workspace
-        run: uv sync --extra dev
+        run: uv sync --group dev
 
       - name: Unit tests
         run: uv run pytest tests/unit -q --tb=short
@@ -94,7 +94,7 @@ jobs:
         run: uv python install 3.12
 
       - name: Sync workspace
-        run: uv sync --extra dev
+        run: uv sync --group dev
 
       - name: Local CLI smoke (sample project)
         working-directory: examples/openai_support_agent
@@ -159,7 +159,7 @@ jobs:
         run: uv python install 3.12
 
       - name: Sync workspace
-        run: uv sync --extra dev
+        run: uv sync --group dev
 
       - name: Packaging unit tests
         run: uv run pytest tests/unit/test_package_release.py -q --tb=short

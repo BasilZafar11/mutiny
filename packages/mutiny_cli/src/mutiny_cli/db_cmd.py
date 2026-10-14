@@ -25,7 +25,12 @@ def add_db_parser(subparsers: argparse._SubParsersAction) -> None:
         "db",
         help=(
             "Operator tools for Hosted SQLite lineage data "
-            "(backup / restore; not a customer project API)"
+            "(backup / restore; requires mutiny-api from the source/workspace)"
+        ),
+        description=(
+            "Hosted SQLite operator tools. Requires mutiny-api from the "
+            "source/workspace (uv sync --group dev); pip install mutiny-ai "
+            "does not include mutiny-api."
         ),
     )
     db_sub = db_p.add_subparsers(dest="db_command", required=True)

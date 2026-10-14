@@ -25,7 +25,7 @@
 ## Test plan
 
 <!-- CI runs every job below. Record the local checks you ran and explain any
-     omissions; do not mark an unrun check as passed. Setup: uv sync --extra dev.
+     omissions; do not mark an unrun check as passed. Setup: uv sync --group dev.
      See CONTRIBUTING.md for prerequisites, offline sample setup and details. -->
 
 - [ ] Python lint: `uv run ruff check`

@@ -9,6 +9,14 @@ Published on PyPI as **`mutiny-ai`** (+ [`mutiny-core`](https://pypi.org/project
 
 ### Fixed
 
+- Use an unversioned workspace root and dependency groups (`uv sync --group dev`,
+  replacing `--extra dev`) instead of advertising a separate product version or
+  duplicate CLI entrypoint. Optional LLM dependencies use `--group llm`.
+- Read the unreleased Hosted API's independent version from package metadata.
+- Replace the stock web README with Hosted development instructions, align CLI
+  Python classifiers with CI (3.11/3.12), and state the source/workspace
+  `mutiny-api` requirement in `mutiny db` help.
+
 - Reject `elite_count >= population_size` so every next generation has room
   for mutations. Small populations must specify a smaller elite count.
 
