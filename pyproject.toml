@@ -1,18 +1,11 @@
-[project]
-name = "mutiny"
-version = "0.1.0"
-description = "Mutiny — behavioral fuzz-testing engine for AI agents"
-requires-python = ">=3.11"
-dependencies = [
+# This is an unversioned workspace, not an installable product distribution.
+[dependency-groups]
+dev = [
     "mutiny-core",
     "mutiny-openai-agents",
     "mutiny-ai",
     "demo-agent",
     "mutiny-api",
-]
-
-[project.optional-dependencies]
-dev = [
     "pytest>=8.0",
     "pytest-asyncio>=0.24",
     "ruff==0.17.0",
@@ -20,12 +13,6 @@ dev = [
 llm = [
     "mutiny-core[llm]",
 ]
-openai-agents = [
-    "mutiny-openai-agents",
-]
-
-[project.scripts]
-mutiny = "mutiny_cli.main:main"
 
 [tool.uv.sources]
 mutiny-core = { workspace = true }

@@ -1,5 +1,5 @@
 version = 1
-revision = 3
+revision = 5
 requires-python = ">=3.11"
 resolution-markers = [
     "python_full_version >= '3.14' and sys_platform == 'win32'",
@@ -12,12 +12,24 @@ resolution-markers = [
 [manifest]
 members = [
     "demo-agent",
-    "mutiny",
     "mutiny-ai",
     "mutiny-api",
     "mutiny-core",
     "mutiny-openai-agents",
 ]
+
+[manifest.dependency-groups]
+dev = [
+    { name = "demo-agent", editable = "apps/demo_agent" },
+    { name = "mutiny-ai", editable = "packages/mutiny_cli" },
+    { name = "mutiny-api", editable = "apps/api" },
+    { name = "mutiny-core", editable = "packages/mutiny_core" },
+    { name = "mutiny-openai-agents", editable = "packages/mutiny_openai_agents" },
+    { name = "pytest", specifier = ">=8.0" },
+    { name = "pytest-asyncio", specifier = ">=0.24" },
+    { name = "ruff", specifier = "==0.17.0" },
+]
+llm = [{ name = "mutiny-core", extras = ["llm"], editable = "packages/mutiny_core" }]
 
 [[package]]
 name = "annotated-doc"
@@ -641,46 +653,6 @@ sdist = { url = "https://files.pythonhosted.org/packages/30/d3/f9acc21dfc886e4f7
 wheels = [
     { url = "https://files.pythonhosted.org/packages/01/c8/248b201f6d753d69fd5d6506011abbb35a946d9142b2ae311a948fd0be3d/mcp-1.29.0-py3-none-any.whl", hash = "sha256:f5a075bb611f23d6f4d080c6a1699fa62772eebc562ba9e66b306ddde1c755f7", size = 223436, upload-time = "2026-07-28T13:41:40.337Z" },
 ]
-
-[[package]]
-name = "mutiny"
-version = "0.1.0"
-source = { virtual = "." }
-dependencies = [
-    { name = "demo-agent" },
-    { name = "mutiny-ai" },
-    { name = "mutiny-api" },
-    { name = "mutiny-core" },
-    { name = "mutiny-openai-agents" },
-]
-
-[package.optional-dependencies]
-dev = [
-    { name = "pytest" },
-    { name = "pytest-asyncio" },
-    { name = "ruff" },
-]
-llm = [
-    { name = "mutiny-core", extra = ["llm"] },
-]
-openai-agents = [
-    { name = "mutiny-openai-agents" },
-]
-
-[package.metadata]
-requires-dist = [
-    { name = "demo-agent", editable = "apps/demo_agent" },
-    { name = "mutiny-ai", editable = "packages/mutiny_cli" },
-    { name = "mutiny-api", editable = "apps/api" },
-    { name = "mutiny-core", editable = "packages/mutiny_core" },
-    { name = "mutiny-core", extras = ["llm"], marker = "extra == 'llm'", editable = "packages/mutiny_core" },
-    { name = "mutiny-openai-agents", editable = "packages/mutiny_openai_agents" },
-    { name = "mutiny-openai-agents", marker = "extra == 'openai-agents'", editable = "packages/mutiny_openai_agents" },
-    { name = "pytest", marker = "extra == 'dev'", specifier = ">=8.0" },
-    { name = "pytest-asyncio", marker = "extra == 'dev'", specifier = ">=0.24" },
-    { name = "ruff", marker = "extra == 'dev'", specifier = "==0.17.0" },
-]
-provides-extras = ["dev", "llm", "openai-agents"]
 
 [[package]]
 name = "mutiny-ai"

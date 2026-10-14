@@ -1,36 +1,66 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Mutiny Hosted UI
 
-## Getting Started
+Next.js frontend for Mutiny's Hosted lineage API. Customer campaigns execute
+locally through `mutiny run`; `mutiny run --hosted` sends redacted results to
+Hosted for viewing projects, campaigns, candidates, and regressions.
 
-First, run the development server:
+## Local development
+
+Requires Python >= 3.11, uv, and Node.js >= 20 with npm. From the repository root:
+
+```bash
+uv sync --group dev
+cd apps/web
+npm ci
+cd ../..
+```
+
+Start the API in one terminal, from the repository root:
+
+```bash
+uv run python -m mutiny_api --host 127.0.0.1 --port 8000
+```
+
+Start the UI in another terminal, from `apps/web`:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+On Windows PowerShell, use this alternative to the npm script's POSIX environment
+assignment:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```powershell
+$env:WATCHPACK_POLLING = 'true'
+npx next dev --hostname 127.0.0.1 --port 3000
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Open <http://127.0.0.1:3000>. Check API health at
+<http://127.0.0.1:8000/api/health>. With dependencies installed, POSIX shells can
+also start both processes using `./scripts/dev.sh` from the repository root.
 
-## Learn More
+## API connection
 
-To learn more about Next.js, take a look at the following resources:
+`next.config.ts` forwards `/api/*` to `MUTINY_API_URL`, defaulting to
+`http://127.0.0.1:8000`. Set it on the web process before starting Next.js if the
+API runs elsewhere. When the API uses `MUTINY_API_TOKEN`, set the same token on
+the web process; middleware adds the bearer header for API requests. Keep this
+token server-side. Non-loopback API binds require a token.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+The Hosted API is **unreleased**. Its internal `mutiny-api` metadata version is
+independent of the published CLI/Core version. Source checkout or workspace
+installation supplies the API; `pip install mutiny-ai` supplies the customer CLI.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Checks
 
-## Deploy on Vercel
+From `apps/web`:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+npm run lint
+npx tsc --noEmit
+npm run build
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+See [CONTRIBUTING.md](../../CONTRIBUTING.md),
+[Cold start](../../docs/COLD_START.md), and [SECURITY.md](../../SECURITY.md)
+for the full contributor workflow and Hosted operating requirements.

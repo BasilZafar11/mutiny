@@ -95,6 +95,11 @@ def test_built_wheels_contain_current_surface(tmp_path: Path) -> None:
         names = set(z.namelist())
         assert "mutiny_cli/db_cmd.py" in names
         assert "mutiny_cli/run_cmd.py" in names
+        metadata_path = next(n for n in names if n.endswith(".dist-info/METADATA"))
+        metadata = z.read(metadata_path).decode("utf-8")
+        assert "Classifier: Programming Language :: Python :: 3.13" not in metadata
+        assert "Requires-Dist: mutiny-api" not in metadata
+        assert not any(n.startswith("mutiny_api/") for n in names)
         run_src = z.read("mutiny_cli/run_cmd.py").decode("utf-8")
         # Compile catches SyntaxError class of stale release (historical PyPI gap)
         ast.parse(run_src)

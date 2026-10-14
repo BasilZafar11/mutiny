@@ -28,7 +28,7 @@ LLM key is **optional**. Demo pin defaults to template mutation fallback (determ
 ## 2. Install (monorepo — supported)
 
 ```bash
-uv sync --extra dev
+uv sync --group dev
 uv run mutiny --help
 # Hosted UI only:
 cd apps/web && npm install && cd ../..

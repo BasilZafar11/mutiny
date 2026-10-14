@@ -26,7 +26,7 @@ Install is the same: `pip install mutiny-ai` then `mutiny init`.
 
 ## Before you open an issue
 
-1. Confirm install path: `pip install mutiny-ai` in your agent project ([README install](./README.md#install)), or from source with `uv sync --extra dev`.
+1. Confirm install path: `pip install mutiny-ai` in your agent project ([README install](./README.md#install)), or from source with `uv sync --group dev`.
 2. Try the sample project: `examples/openai_support_agent/` with `uv run mutiny …`.
 3. For Hosted: `curl -sf http://127.0.0.1:8000/api/health` and see [Troubleshooting](./README.md#troubleshooting).
 4. Search existing issues for duplicates.

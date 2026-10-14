@@ -1,5 +1,9 @@
 # Mutiny CLI
 
+`mutiny db` requires the unreleased Hosted `mutiny-api` package supplied by
+the source/workspace installation (`uv sync --group dev`). It is not included
+by `pip install mutiny-ai`; local `init`, `run`, and `test` do not require it.
+
 Console script from the **`mutiny-ai`** PyPI package (`pip install mutiny-ai`).  
 Source of truth for flags: `mutiny --help` and `mutiny <cmd> --help`.
 
@@ -15,7 +19,8 @@ options:
 
 positional arguments:
   {db,init,run,test}
-    db           Operator tools for Hosted SQLite lineage data (backup / restore)
+    db           Hosted SQLite operator tools (requires mutiny-api from the
+                 source/workspace)
     init         Scaffold .mutiny/adapter.py, policy.yaml, mutiny.yaml
     run          Load adapter + policy and start a campaign
     test         Replay project regressions under .mutiny/tests/

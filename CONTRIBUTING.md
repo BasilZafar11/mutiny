@@ -13,7 +13,7 @@ nit. Larger adapters need an issue first.
 2. **Sync** the workspace (contributors use source; users install `mutiny-ai`):
 
    ```bash
-   uv sync --extra dev
+   uv sync --group dev
    uv run mutiny --help
    uv run pytest tests/unit -q
    ```
@@ -44,7 +44,7 @@ Full detail: [README → Install](./README.md#install).
 ```bash
 git clone https://github.com/CodewithJha/mutiny.git
 cd mutiny
-uv sync --extra dev
+uv sync --group dev
 uv run mutiny --help
 ```
 
@@ -123,7 +123,7 @@ PR CI (see `.github/workflows/ci.yml`) gates on Python **3.11** and **3.12**:
 | Package build + isolated artifact gate | `uv run pytest tests/unit/test_package_release.py -q` then `./scripts/verify_release_artifacts.sh` |
 
 ```bash
-uv sync --extra dev
+uv sync --group dev
 uv run ruff check                   # pinned correctness rules from pyproject.toml
 uv run pytest tests/unit -q          # default for most PRs
 uv run pytest tests/integration -q   # when touching API / Hosted / sample loop

@@ -22,7 +22,7 @@ codes, so Mutiny can discover real `issue_refund(..., approved=false)` calls.
 From the Mutiny repo root (uv workspace):
 
 ```bash
-uv sync --extra dev
+uv sync --group dev
 cd examples/openai_support_agent
 ```
 
@@ -41,7 +41,7 @@ export MUTINY_SAMPLE_OFFLINE=1
 
 ## Mutiny (recommended)
 
-From the Mutiny repo after `uv sync --extra dev`, always prefer `uv run mutiny …`
+From the Mutiny repo after `uv sync --group dev`, always prefer `uv run mutiny …`
 so the workspace CLI is on your PATH.
 
 ```bash
