@@ -7,6 +7,12 @@ by `pip install mutiny-ai`; local `init`, `run`, and `test` do not require it.
 Console script from the **`mutiny-ai`** PyPI package (`pip install mutiny-ai`).  
 Source of truth for flags: `mutiny --help` and `mutiny <cmd> --help`.
 
+The usage snapshot below reflects current main (2026-10-15), including `db`
+and `--version`. Some flags and summary improvements landed after PyPI 0.2.0;
+see [Unreleased](../CHANGELOG.md#unreleased). For an offline regression that
+starts with an expected FAIL and passes after enabling the sample's existing
+enforcement switch, follow the [sample walkthrough](../examples/openai_support_agent/README.md#local-fail-to-pass-walkthrough-recommended).
+
 ```text
 usage: mutiny [-h] [--version] {db,init,run,test} ...
 

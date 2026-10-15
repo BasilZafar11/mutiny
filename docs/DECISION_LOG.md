@@ -208,6 +208,11 @@ Add new ADRs at the bottom. Do not rewrite history; supersede with a new ADR.
 
 ## ADR-015 — Inngest-inspired Hosted visual language
 
+**Status (2026-10-15): Superseded for current visual direction by root
+[DESIGN.md](../DESIGN.md).** The implemented UI uses its purple-black palette,
+Rubik UI and IBM Plex Mono data typography. The decision below records the
+earlier design; new work follows the root canon and current CSS tokens.
+
 **Problem:** Hosted UI needed a coherent developer-tool aesthetic for Persuade (landing) and Operate (campaign/exploit/policies/tests) without inventing a one-off brand system mid-hackathon.
 
 **Decision:** Pin [Inngest](https://www.inngest.com) v1 as visual canon for Mutiny Hosted — charcoal canvas (`#1c1c1c`), frost primary CTAs that hover to salmon (`#fb5536`), uppercase outline display headlines, floating salmon micro-dots, mono ■ code accordion. CircularXX is licensed to Inngest only; Mutiny uses Plus Jakarta Sans + IBM Plex Mono as stand-ins. Documented in root `DESIGN.md` / `PRODUCT.md`.

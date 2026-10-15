@@ -11,6 +11,12 @@
 
 **Related:** [ARCHITECTURE.md](./ARCHITECTURE.md) · [SYSTEM_DESIGN.md](./SYSTEM_DESIGN.md) · [DECISION_LOG.md](./DECISION_LOG.md) · [ROADMAP.md](./ROADMAP.md) · [IMPLEMENTATION_PLAN.md](./IMPLEMENTATION_PLAN.md) · [SECURITY.md](../SECURITY.md)
 
+**Release reconciliation (2026-10-15):** The audit above is historical. The latest
+published CLI/Core/adapter release is 0.2.0 (2026-09-10), tagged `v0.2.0`.
+Current source contains additional Unreleased changes; see [CHANGELOG](../CHANGELOG.md).
+Target A evidence below distinguishes implemented CI gates from checks awaiting
+a fresh clean-PyPI verification. Target B remains incomplete.
+
 **Conflict rule:** Product intent → PRD. Hard boundaries → ARCHITECTURE. Runtime contracts → SYSTEM_DESIGN. Sequencing → IMPLEMENTATION_PLAN. Decisions → DECISION_LOG. **Ship / no-ship readiness and Hosted vs Local CLI gates → this document.** If an ADR conflicts with readiness findings, propose a superseding ADR — do not silently rewrite history.
 
 ---
@@ -35,14 +41,14 @@ It is **not** production-ready as a **public or multi-tenant Hosted** service. W
 |---|---|
 | Core kernel | `packages/mutiny_core` — policy, campaign, fitness, mutate, minimize, regress; no FastAPI/React/SQL |
 | Adapter #1 | `packages/mutiny_openai_agents` — `OpenAIAgentsAdapter`, file loader for `.mutiny/adapter.py` |
-| CLI | `packages/mutiny_cli` — `mutiny init` / `run` / `test`; PyPI name `mutiny-ai` @ `0.1.0` |
+| CLI | `packages/mutiny_cli` — `mutiny init` / `run` / `test`; PyPI `mutiny-ai` @ `0.2.0`; post-tag fixes remain Unreleased |
 | Sample project | `examples/openai_support_agent/` with offline scripted model path |
 | Hosted API | `apps/api` — campaigns, SSE, minimize, regressions, projects, policy routes (customer FS/exec removed), **ingest `/api/ingest/v1/*`** |
 | Hosted UI | `apps/web` — talks HTTP/SSE to API only (ADR-014) |
 | Demo harness | `apps/demo_agent` — `in_process_demo` still supported by supervisor |
 | CI | `.github/workflows/ci.yml` — unit + integration + reliability (3.11/3.12), CLI smoke, web build, package build |
 | Publish | `.github/workflows/publish.yml` + `docs/PUBLISHING.md` |
-| Tag | `v0.1.0` |
+| Tag | `v0.2.0` (published 2026-09-10; registry checked 2026-10-15) |
 
 ### What docs claim vs code (material drift)
 
@@ -526,15 +532,20 @@ Scheduled after Target A gate; do not block 0.2.0.
 
 ### Measurable — Production Local CLI (Target A)
 
-- [ ] `pip install mutiny-ai==<ver>` on clean venv; `mutiny --help` works  
-- [ ] Sample: `mutiny run` finds or honestly reports no violation without crashing  
-- [ ] Regression save + `mutiny test` FAIL→PASS path documented and tested offline  
-- [ ] No Hosted required for primary path; Hosted explicitly opt-in  
+- [ ] Fresh clean-PyPI `pip install mutiny-ai==0.2.0` + `mutiny --help` recheck:
+  publication verified 2026-10-15; this docs pass did not repeat isolated install
+- [x] Sample `mutiny run` completes locally and saves a violation (workspace
+  smoke verified 2026-10-14; isolated wheel path is gated by release CI)
+- [x] Regression FAIL to PASS procedure documented in the sample README;
+  `scripts/verify_release_artifacts.sh` gates exit 1 before the enforcement
+  switch and exit 0 after it on isolated built wheels (reviewed 2026-10-15)
+- [x] No Hosted required; CLI defaults local and Hosted sync is opt-in
 - [x] Secret redaction tests green  
 - [x] Seeds/mutators policy-general (M-PR6 / ADR-020); refund packs remain demo/harness helpers 
 - [x] CI: unit + offline integration green on PR  
 - [x] README/SECURITY/IMPLEMENTATION_PLAN match code (P1-7 docs reconcile)  
-- [ ] Version **≥ 0.2.0** tagged with CHANGELOG  
+- [x] `v0.2.0` tagged with CHANGELOG; all three 0.2.0 distributions published
+  2026-09-10 (registry/tag verified 2026-10-15)
 
 ### Measurable — Production Hosted (Target B)
 

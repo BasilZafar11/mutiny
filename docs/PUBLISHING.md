@@ -4,13 +4,13 @@ End users install **`mutiny-ai`** (CLI command stays `mutiny`). That meta/CLI wh
 
 | PyPI name | Path | Role | Status |
 |---|---|---|---|
-| [`mutiny-core`](https://pypi.org/project/mutiny-core/) | `packages/mutiny_core` | Policy oracle / campaign kernel | **0.2.0 RC** (git); PyPI may still show `0.1.0` until upload |
-| [`mutiny-openai-agents`](https://pypi.org/project/mutiny-openai-agents/) | `packages/mutiny_openai_agents` | Adapter #1 | **0.2.0 RC** (git); PyPI may still show `0.1.0` until upload |
-| [`mutiny-ai`](https://pypi.org/project/mutiny-ai/) | `packages/mutiny_cli` | Console script `mutiny` | **0.2.0 RC** (git); PyPI may still show `0.1.0` until upload |
+| [`mutiny-core`](https://pypi.org/project/mutiny-core/) | `packages/mutiny_core` | Policy oracle / campaign kernel | **0.2.0 published**, 2026-09-10 |
+| [`mutiny-openai-agents`](https://pypi.org/project/mutiny-openai-agents/) | `packages/mutiny_openai_agents` | Adapter #1 | **0.2.0 published**, 2026-09-10 |
+| [`mutiny-ai`](https://pypi.org/project/mutiny-ai/) | `packages/mutiny_cli` | Console script `mutiny` | **0.2.0 published**, 2026-09-10 |
 
 > **Why not `pip install mutiny`?** The name [`mutiny`](https://pypi.org/project/mutiny/) is already taken (unrelated Revolt API wrapper). [`mutiny-sdk`](https://pypi.org/project/mutiny-sdk/) is also taken. We publish as **`mutiny-ai`**.
 
-Do **not** publish the repo-root `name = "mutiny"` workspace project — it is not a user wheel.
+The repo root is an unversioned uv workspace, not a publishable user wheel.
 
 End users: `pip install mutiny-ai` then `mutiny init` / `mutiny run` / `mutiny test` (Hosted not required).
 
@@ -18,7 +18,12 @@ End users: `pip install mutiny-ai` then `mutiny init` / `mutiny run` / `mutiny t
 
 ## Release contract (required before upload)
 
-Until **`0.2.0`** is uploaded, PyPI **`0.1.0` may lag the git tree**. Editable/`uv sync` success does **not** prove release integrity — checkout imports hide broken wheels.
+PyPI's latest version for all three packages is **0.2.0** (verified 2026-10-15).
+The `v0.2.0` tag and wheels predate numeric-string policy coercion (#42,
+`bd6a37b`) and other fixes listed in [Unreleased](../CHANGELOG.md#unreleased).
+The published core wheel's `_as_number` accepts numbers but not strings. Source
+behavior requires a source install until a later release is published; do not
+overwrite 0.2.0 or infer wheel parity from editable/`uv sync` success.
 
 Before every publish:
 

@@ -493,7 +493,13 @@ Full graph: [github.com/CodewithJha/mutiny/graphs/contributors](https://github.c
 ## FAQ
 
 **Is Mutiny on PyPI?**  
-Yes — install with `pip install mutiny-ai` ([PyPI](https://pypi.org/project/mutiny-ai/)). CLI command is **`mutiny`**. Do not use bare `pip install mutiny` or `mutiny-sdk` — those are other projects. Until `0.2.0` is uploaded, the index may still serve `0.1.0`; Local CLI does not require Hosted or a monorepo checkout.
+Yes. The latest published release is **0.2.0** (verified 2026-10-15). Install with
+`pip install mutiny-ai` ([PyPI](https://pypi.org/project/mutiny-ai/)); the CLI command
+is **`mutiny`**. Do not use bare `pip install mutiny` or `mutiny-sdk`, which are
+other projects. Local CLI needs neither Hosted nor a monorepo checkout.
+Current git includes fixes absent from the 0.2.0 wheels, including numeric-string
+policy coercion (#42); see [Unreleased](./CHANGELOG.md#unreleased) before relying
+on source behavior in a PyPI installation.
 
 **How do I run on Windows?**  
 Create a venv, then activate with PowerShell `.\.venv\Scripts\Activate.ps1` (or cmd `activate.bat`). Prefer WSL for contributor/`uv` workflows. Short FAQ: [SUPPORT.md § Windows](./SUPPORT.md#windows).
@@ -525,7 +531,7 @@ No. Authorized testing only — local / in-process / localhost. Not an open-inte
 - **Policy expressiveness** is deliberately narrow (deterministic operators on tool calls) — not NL policies judged by an LLM.
 - **Hosted** is optional and secondary: observe-only for customer runs; non-loopback requires Bearer auth; in-process rate limits when auth is configured; multi-tenant cloud / SSO are not current scope.
 - Sample and reference demo agents use **mock tools**; they are not production payment or email systems.
-- See [CHANGELOG.md](./CHANGELOG.md) for `0.2.0` Local CLI RC notes and what is explicitly out of scope.
+- See [CHANGELOG.md](./CHANGELOG.md) for published `0.2.0` notes, post-tag source changes, and what is explicitly out of scope.
 
 Honest scope detail: [`docs/ROADMAP.md`](./docs/ROADMAP.md) § Current scope.
 

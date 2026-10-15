@@ -7,7 +7,32 @@ Published on PyPI as **`mutiny-ai`** (+ [`mutiny-core`](https://pypi.org/project
 
 ## [Unreleased]
 
+These entries describe changes after tag `v0.2.0`. PyPI's latest release for
+`mutiny-ai`, `mutiny-core`, and `mutiny-openai-agents` is **0.2.0** (checked
+2026-10-15); that wheel set does not include the post-tag fixes below. Use a
+source checkout for these changes until maintainers publish another release.
+
+### Added
+
+- `mutiny --version` / `-V` from installed metadata (#26, PR #52).
+- String `contains`, `startswith`, and `endswith` policy constraints (#23, PR #51).
+- Clear PASS/FAIL/SKIPPED replay summary (#39, PR #53).
+
 ### Fixed
+
+- Coerce numeric-looking string tool arguments for `gt`/`gte`/`lt`/`lte`
+  constraints and numeric boundary fitness (#42, commit `bd6a37b`, PR #50).
+  Currency-formatted numeric arguments are also recognized (PR #83). These
+  behaviors are git-only relative to PyPI 0.2.0.
+- Pass Hosted token and API URL through the compose web service (commit
+  `75dfbdd`, PR #48).
+- Preserve matched condition evidence (PR #84), successive saved regressions
+  (PR #89), and nonzero exit status for unexpected skipped replay cases (PR #88).
+- Bound adapter steps and campaign wall time (PR #96), preserve correct agent
+  imports across project loads (PR #119), and free the ingest execution slot
+  after interruption (PR #98).
+- Require explicit opt-in for remote Hosted uploads (PR #94), reject mismatched
+  ingest hashes (PR #93), and fix SSE/SQLite concurrency gaps (PR #92).
 
 - Use an unversioned workspace root and dependency groups (`uv sync --group dev`,
   replacing `--extra dev`) instead of advertising a separate product version or
@@ -91,7 +116,8 @@ Published on PyPI as **`mutiny-ai`** (+ [`mutiny-core`](https://pypi.org/project
 
 ### Notes
 
-- PyPI may still show **`0.1.0`** until this version is published — do not treat editable/`uv sync` success as PyPI readiness.
+- Published on PyPI on 2026-09-10. Source changes after `v0.2.0` are listed under
+  Unreleased; editable/`uv sync` success does not prove parity with published wheels.
 - Hosted UI/API remain optional secondary surfaces; primary path needs no Hosted process.
 
 ## [0.1.0] — 2026-08-09
