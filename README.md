@@ -426,6 +426,13 @@ Thanks to everyone who has contributed. New faces welcome — pick up a [`good f
                 </a>
             </td>
             <td align="center">
+                <a href="https://github.com/BasilZafar11">
+                    <img src="https://github.com/BasilZafar11.png?size=100" width="100" height="100" alt="BasilZafar11"/>
+                    <br />
+                    <sub><b>BasilZafar11</b></sub>
+                </a>
+            </td>
+            <td align="center">
                 <a href="https://github.com/fatihcvs">
                     <img src="https://github.com/fatihcvs.png?size=100" width="100" height="100" alt="fatihcvs"/>
                     <br />
@@ -437,13 +444,6 @@ Thanks to everyone who has contributed. New faces welcome — pick up a [`good f
                     <img src="https://github.com/DYNOSuprovo.png?size=100" width="100" height="100" alt="DYNOSuprovo"/>
                     <br />
                     <sub><b>DYNOSuprovo</b></sub>
-                </a>
-            </td>
-            <td align="center">
-                <a href="https://github.com/BasilZafar11">
-                    <img src="https://github.com/BasilZafar11.png?size=100" width="100" height="100" alt="BasilZafar11"/>
-                    <br />
-                    <sub><b>BasilZafar11</b></sub>
                 </a>
             </td>
             <td align="center">
