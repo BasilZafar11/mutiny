@@ -135,19 +135,23 @@ Mutiny (behavioral fuzz-testing engine)
 
 Persistence is **not** Core’s job. The API or CLI persists what Core returns.
 
-### CLI / init surfaces (intended package ownership — docs; implement per IMPLEMENTATION_PLAN)
+### CLI surfaces (`packages/mutiny_cli`, published as `mutiny-ai`)
 
-**Owns (planned)**
+**Owns (implemented)**
 
 - `mutiny init` — generate `.mutiny/adapter.py`, `policy.yaml`, `mutiny.yaml` in the customer project  
 - `mutiny run` — load adapter + policy + config; drive **local** Core campaign by default; write regressions; `--hosted` = local + Hosted ingest sync (M-PR8C)
-- `mutiny test` — regression replay (P1)  
+- `mutiny test` — replay saved regressions, report PASS/FAIL/SKIPPED and return an exit status
+- `mutiny --version` — report installed CLI distribution metadata
+- `mutiny db backup` / `restore` — Hosted SQLite operator commands requiring
+  the source/workspace `mutiny-api` package; not included by `pip install mutiny-ai`
 
 **Must not contain**
 
 - Reimplemented policy evaluation, fitness, or mutation logic  
 
-Placement may be `integrations/cli` or a published `mutiny` package entrypoint; Core remains the engine.
+The `mutiny` console entrypoint belongs to the `mutiny-ai` distribution. Core
+remains the engine; optional Hosted sync uploads redacted local results.
 
 ### OpenAI Agents SDK adapter (Adapter #1)
 

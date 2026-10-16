@@ -12,6 +12,11 @@ Maintainer catalog of **small, realistic** tasks for new contributors. Open GitH
 
 ## Open on GitHub (labeled)
 
+Catalog status checked 2026-10-15. Sections below also contain shipped tasks
+and future refresh ideas; verify the linked issue before claiming work.
+`mutiny --version` (#26, PR #52), replay summary counts (#39, PR #53), and string
+policy operators (#23, PR #51) have shipped on main after `v0.2.0`.
+
 **Shipped:** [#6](https://github.com/CodewithJha/mutiny/issues/6) init `--no-hosted` hint (PR [#13](https://github.com/CodewithJha/mutiny/pull/13) by [@kkkhs](https://github.com/kkkhs)) · [#5](https://github.com/CodewithJha/mutiny/issues/5) policy evaluator edge cases (PR [#15](https://github.com/CodewithJha/mutiny/pull/15) by [@Mr-Neutr0n](https://github.com/Mr-Neutr0n)) · [#2](https://github.com/CodewithJha/mutiny/issues/2) CLI flag docs (`docs/CLI.md`) · [#3](https://github.com/CodewithJha/mutiny/issues/3) real screenshots / demo GIF.
 
 **Next picks (claim in the issue comments first):**
@@ -73,11 +78,11 @@ Maintainer catalog of **small, realistic** tasks for new contributors. Open GitH
 | # | Title | Difficulty | Acceptance | Affected files | Labels |
 |---|---|---|---|---|---|
 | 21 | Strengthen `mutiny init` next-step hint | XS | **Done** — PR [#13](https://github.com/CodewithJha/mutiny/pull/13) / GH [#6](https://github.com/CodewithJha/mutiny/issues/6) (`--no-hosted` + init test asserts) | `packages/mutiny_cli/`, init tests | `cli` |
-| 22 | Friendlier `mutiny test` counts | XS | Clear PASS/FAIL/SKIPPED summary line | CLI test command | `cli` |
+| 22 | Friendlier `mutiny test` counts | XS | **Shipped on main** (#39, PR #53): PASS/FAIL/SKIPPED summary | CLI test command | `cli` |
 | 23 | Missing `policy.yaml` warning | S | Actionable path in error | `packages/mutiny_cli/` run | `cli` |
 | 24 | `dev.sh` npm install hint | XS | Tip already exists; verify on clean tree / harden if missable (GH [#9](https://github.com/CodewithJha/mutiny/issues/9)) | `scripts/dev.sh`, `docs/COLD_START.md` | `cli` `docs` |
 | 25 | Sample README always `uv run mutiny` | XS | Docs-only alignment | `examples/**/README.md` | `docs` `examples` `cli` |
-| 26 | `mutiny --version` | S | Print package version from metadata | `packages/mutiny_cli/` | `cli` |
+| 26 | `mutiny --version` | S | **Shipped on main** (#26, PR #52): version from metadata | `packages/mutiny_cli/` | `cli` |
 
 ## Examples / policy packs (27–32)
 
