@@ -7,7 +7,8 @@
     "dev:turbo": "WATCHPACK_POLLING=true next dev --turbopack --hostname 127.0.0.1 --port 3000",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "test": "node --test tests/policies-page.test.mjs"
   },
   "dependencies": {
     "@xyflow/react": "^12.12.0",
