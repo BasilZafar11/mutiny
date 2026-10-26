@@ -317,7 +317,17 @@ def create_app(db_path: str | Path | None = None) -> FastAPI:
             },
         )
 
-    @app.get("/api/health", response_model=HealthResponse, tags=["ops"])
+    @app.get(
+        "/api/health", response_model=HealthResponse, tags=["ops"],
+        summary="Check API health and execution capacity",
+        description=(
+            "Public operational probe; no bearer token is required. Reports API "
+            "and database readiness, concurrency limits, and execution-slot status. "
+            "A full execution slot can degrade readiness without making the API "
+            "unreachable. Hosted observes customer lineage and does not execute "
+            "customer adapters; only the bundled trusted demo can execute here."
+        ),
+    )
     def health() -> HealthResponse:
         repo: Repository = app.state.repo
         db_ok = True
@@ -693,20 +703,55 @@ def create_app(db_path: str | Path | None = None) -> FastAPI:
 
     # --- M-PR8B: observe-only ingest (never executes customer adapters) ---
 
-    @app.post("/api/ingest/v1/campaigns", status_code=201, tags=["ingest"])
+    @app.post(
+        "/api/ingest/v1/campaigns", status_code=201, tags=["ingest"],
+        summary="Open an observe-only campaign upload",
+        description=(
+            "Store campaign metadata from a Local CLI run. Requires "
+            "schema_version=1, redaction.applied=true, attestation=true, and a "
+            "project_id or opaque local_project_key. A bearer token is required "
+            "when MUTINY_API_TOKEN is configured. Repeating the same campaign "
+            "identity and config returns the existing record; conflicting config "
+            "returns 409. Uploaded paths are metadata only: Hosted does not read "
+            "customer files or execute customer adapters."
+        ),
+    )
     def ingest_open_campaign(body: IngestCampaignOpenRequest) -> dict[str, Any]:
         ingest_svc: IngestService = app.state.ingest
         result = ingest_svc.open_campaign(body)
         return result
 
-    @app.post("/api/ingest/v1/campaigns/{campaign_id}/batch", tags=["ingest"])
+    @app.post(
+        "/api/ingest/v1/campaigns/{campaign_id}/batch", tags=["ingest"],
+        summary="Upload redacted campaign events and artifacts",
+        description=(
+            "Append observed events and candidate/trace/regression/test artifacts "
+            "to an existing campaign. Requires schema_version=1 and "
+            "redaction.applied=true; redact secrets before upload. A bearer token "
+            "is required when MUTINY_API_TOKEN is configured. The body campaign_id "
+            "must match the path. Repeated event/artifact identities are "
+            "idempotent when content matches; conflicts return 409 and configured "
+            "size limits return 413. Hosted persists evidence as data and does "
+            "not execute customer adapters or open uploaded filesystem paths."
+        ),
+    )
     def ingest_campaign_batch(
         campaign_id: str, body: IngestBatchRequest
     ) -> dict[str, Any]:
         ingest_svc: IngestService = app.state.ingest
         return ingest_svc.ingest_batch(campaign_id, body)
 
-    @app.post("/api/ingest/v1/campaigns/{campaign_id}/complete", tags=["ingest"])
+    @app.post(
+        "/api/ingest/v1/campaigns/{campaign_id}/complete", tags=["ingest"],
+        summary="Finalize an uploaded local campaign",
+        description=(
+            "Persist the local run's terminal status and optional summary metrics "
+            "on an existing observe-only campaign. Requires schema_version=1 and "
+            "redaction.applied=true. A bearer token is required when "
+            "MUTINY_API_TOKEN is configured. This records a result produced "
+            "locally; it does not start a run or execute customer adapters."
+        ),
+    )
     def ingest_campaign_complete(
         campaign_id: str, body: IngestCompleteRequest
     ) -> dict[str, Any]:
