@@ -38,7 +38,8 @@
 
 **Limitations / out of scope (explicit):**
 
-- LangGraph, CrewAI, PydanticAI, AutoGen, HTTP adapters (Beta/v1 — same interface)  
+- LangGraph, CrewAI, AutoGen, HTTP adapters (Beta/v1 — same interface)
+- PydanticAI adapter: implemented in source; see the Beta entry below (not yet published)
 - MCP (unless stretch after green)  
 - Multi-tenant cloud  
 - Broad repo scanning  
@@ -67,7 +68,9 @@ New adapters on the **same** `TargetAdapter` interface (Core unchanged):
 
 - **LangGraph** adapter  
 - **CrewAI** adapter  
-- **PydanticAI** adapter  
+- **PydanticAI** adapter: [implemented in source](../packages/mutiny_pydantic_ai/README.md),
+  with offline function-tool observation and fail-closed unsupported-tool handling.
+  CLI-local; Hosted observe-only. PyPI release remains pending.
 - Localhost OpenAI-compatible **HTTP endpoint adapter** with token gate  
 - Multi-campaign history UX  
 - Policy editor (still deterministic primitives)  

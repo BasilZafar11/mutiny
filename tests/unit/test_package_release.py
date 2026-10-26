@@ -13,6 +13,7 @@ REPO = Path(__file__).resolve().parents[2]
 PACKAGES = {
     "mutiny-core": REPO / "packages" / "mutiny_core",
     "mutiny-openai-agents": REPO / "packages" / "mutiny_openai_agents",
+    "mutiny-pydantic-ai": REPO / "packages" / "mutiny_pydantic_ai",
     "mutiny-ai": REPO / "packages" / "mutiny_cli",
 }
 _VERSION_RE = re.compile(r'^version\s*=\s*"([^"]+)"', re.M)
@@ -71,6 +72,7 @@ def test_built_wheels_contain_current_surface(tmp_path: Path) -> None:
     for name, pkg in (
         ("core", PACKAGES["mutiny-core"]),
         ("openai", PACKAGES["mutiny-openai-agents"]),
+        ("pydantic-ai", PACKAGES["mutiny-pydantic-ai"]),
         ("cli", PACKAGES["mutiny-ai"]),
     ):
         target = out / name
@@ -84,6 +86,16 @@ def test_built_wheels_contain_current_surface(tmp_path: Path) -> None:
     core_whl = next((out / "core").glob("mutiny_core-*-py3-none-any.whl"))
     openai_whl = next((out / "openai").glob("mutiny_openai_agents-*-py3-none-any.whl"))
     cli_whl = next((out / "cli").glob("mutiny_ai-*-py3-none-any.whl"))
+    pydantic_whl = next((out / "pydantic-ai").glob("mutiny_pydantic_ai-*-py3-none-any.whl"))
+
+    with zipfile.ZipFile(pydantic_whl) as z:
+        names = set(z.namelist())
+        assert "mutiny_pydantic_ai/adapter.py" in names
+        metadata_path = next(n for n in names if n.endswith(".dist-info/METADATA"))
+        metadata = z.read(metadata_path).decode("utf-8")
+        assert "Requires-Dist: mutiny-core>=0.2.0" in metadata
+        assert "Requires-Dist: pydantic-ai-slim" in metadata
+        assert not any(n.startswith("mutiny_api/") for n in names)
 
     with zipfile.ZipFile(core_whl) as z:
         names = set(z.namelist())
