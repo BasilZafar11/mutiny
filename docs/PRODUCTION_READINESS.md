@@ -196,7 +196,7 @@ MVP limitations are labeled as such, not “bugs.”
 | P3-2 | Default regression name `refund_limit_regression` |
 | P3-3 | CONTRIBUTING/GOOD_FIRST_ISSUES strong; link this readiness doc from hub |
 | P3-4 | Web a11y / copy still partially demo-centric in places |
-| P3-5 | No Dockerfile (compose uses stock images + volume mount) |
+| P3-5 | ~~No Dockerfile (compose uses stock images + volume mount)~~ **Resolved (#135):** root Dockerfile, non-root images, named data volume, `container-smoke` CI |
 
 ### P4 — Future (not blockers; ROADMAP-aligned)
 

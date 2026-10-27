@@ -17,6 +17,12 @@ source checkout for these changes until maintainers publish another release.
 - `mutiny --version` / `-V` from installed metadata (#26, PR #52).
 - String `contains`, `startswith`, and `endswith` policy constraints (#23, PR #51).
 - Clear PASS/FAIL/SKIPPED replay summary (#39, PR #53).
+- `mutiny-pydantic-ai` source package: a local PydanticAI `TargetAdapter` with
+  fail-closed tool observation (#45, PR #139). Not yet published to PyPI.
+- Hosted health field guide (`docs/API_HEALTH.md`, #8, PR #136), OpenAPI
+  descriptions for health and ingest routes (#44, PR #138), per-rule comments
+  in the sample policy (#7, PR #134), and an email-recipient example policy
+  bound to trusted context (#10, PR #132).
 
 ### Fixed
 
@@ -50,6 +56,15 @@ source checkout for these changes until maintainers publish another release.
 - Reject `elite_count >= population_size` so every next generation has room
   for mutations. Small populations must specify a smaller elite count.
 
+- Hosted images are built with a root Dockerfile: dependencies installed at
+  build time, non-root API and UI, a named data volume instead of a repo
+  bind-mount, loopback-published ports, and a `container-smoke` CI job; Railway
+  uses the Dockerfile (#63, PR #135). Fonts are bundled locally for hermetic
+  builds.
+- The Hosted Policies page no longer calls the retired policy file APIs; it
+  shows local-CLI guidance, and the web package gains its first tests (#60,
+  PR #137).
+
 ### Removed
 
 - Removed the ineffective `use_boundary_seeds` flag from CLI scaffolds, the
@@ -60,7 +75,7 @@ source checkout for these changes until maintainers publish another release.
 
 ### Planned
 
-- Additional framework adapters (LangGraph, CrewAI, PydanticAI, …)
+- Additional framework adapters (LangGraph, CrewAI, …); PydanticAI is available as an unreleased source package
 - Dedicated GitHub Action for customer-project `mutiny test` replay packaging (sample path covered by CLI smoke + suites)
 - Multi-tenant / SaaS Hosted, distributed rate limits, AuthZ beyond attestation
 
