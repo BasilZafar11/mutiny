@@ -57,9 +57,14 @@ From `apps/web`:
 
 ```bash
 npm run lint
+npm test
 npx tsc --noEmit
 npm run build
 ```
+
+`npm test` uses Node's built-in test runner and the existing TypeScript compiler
+to render the Policies page without API access and check that retired policy
+file operations are absent from the Hosted client.
 
 See [CONTRIBUTING.md](../../CONTRIBUTING.md),
 [Cold start](../../docs/COLD_START.md), and [SECURITY.md](../../SECURITY.md)

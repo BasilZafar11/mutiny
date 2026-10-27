@@ -107,15 +107,6 @@ export type PolicyEntry = {
   policy_set: PolicySet;
 };
 
-export type PolicyContent = {
-  project_path: string;
-  path: string;
-  format: string;
-  content: string;
-  version: string;
-  policy_set: PolicySet;
-};
-
 export type SseEvent = {
   id?: number;
   campaign_id?: string;
@@ -198,12 +189,6 @@ export type Health = {
   adapter_loading?: string;
 };
 
-function withProjectPath(path: string, projectPath?: string): string {
-  const pp = projectPath ?? DEFAULT_PROJECT_PATH;
-  const sep = path.includes("?") ? "&" : "?";
-  return `${path}${sep}project_path=${encodeURIComponent(pp)}`;
-}
-
 export const mutinyApi = {
   health: () => api<Health>("/api/health"),
   listProjects: () => api<{ projects: Project[] }>("/api/projects"),
@@ -213,19 +198,6 @@ export const mutinyApi = {
       method: "POST",
       body: JSON.stringify(body),
     }),
-  policies: (projectPath?: string) =>
-    api<{ policies: PolicyEntry[]; project_path: string }>(
-      withProjectPath("/api/policies", projectPath)
-    ),
-  policy: (id: string, projectPath?: string) =>
-    api<PolicyEntry>(withProjectPath(`/api/policies/${id}`, projectPath)),
-  policyContent: (projectPath?: string) =>
-    api<PolicyContent>(withProjectPath("/api/policies/content", projectPath)),
-  savePolicyContent: (content: string, projectPath?: string) =>
-    api<PolicyContent & { ok: boolean }>(
-      withProjectPath("/api/policies/content", projectPath),
-      { method: "PUT", body: JSON.stringify({ content }) }
-    ),
   listCampaigns: (params?: {
     status?: string;
     project_id?: string;
