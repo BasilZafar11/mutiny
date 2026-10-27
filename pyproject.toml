@@ -3,6 +3,7 @@
 dev = [
     "mutiny-core",
     "mutiny-openai-agents",
+    "mutiny-pydantic-ai",
     "mutiny-ai",
     "demo-agent",
     "mutiny-api",
@@ -17,6 +18,7 @@ llm = [
 [tool.uv.sources]
 mutiny-core = { workspace = true }
 mutiny-openai-agents = { workspace = true }
+mutiny-pydantic-ai = { workspace = true }
 mutiny-ai = { workspace = true }
 demo-agent = { workspace = true }
 mutiny-api = { workspace = true }
@@ -25,6 +27,7 @@ mutiny-api = { workspace = true }
 members = [
     "packages/mutiny_core",
     "packages/mutiny_openai_agents",
+    "packages/mutiny_pydantic_ai",
     "packages/mutiny_cli",
     "apps/demo_agent",
     "apps/api",
@@ -43,6 +46,7 @@ testpaths = ["tests"]
 pythonpath = [
     "packages/mutiny_core/src",
     "packages/mutiny_openai_agents/src",
+    "packages/mutiny_pydantic_ai/src",
     "packages/mutiny_cli/src",
     "apps/demo_agent/src",
     "apps/api/src",

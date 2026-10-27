@@ -96,7 +96,8 @@ Canonical product hierarchy (never reverse):
 Mutiny (behavioral fuzz-testing engine)
   → Adapter Layer
     → OpenAI Agents SDK Adapter   (Adapter #1)
-    → Future adapters             (LangGraph, PydanticAI, CrewAI, AutoGen, HTTP, …)
+    → PydanticAI Adapter          (source package; CLI-local)
+    → Future adapters             (LangGraph, CrewAI, AutoGen, HTTP, …)
       → Customer Project
 ```
 
@@ -231,10 +232,12 @@ remains the engine; optional Hosted sync uploads redacted local results.
 These paths are roadmap placeholders, not shipped adapter locations. Adapter #1
 is in `packages/mutiny_openai_agents`; the empty `integrations/` directory is
 tracked separately in [issue #38](https://github.com/CodewithJha/mutiny/issues/38).
+The additional [PydanticAI adapter](../packages/mutiny_pydantic_ai/README.md)
+lives in `packages/mutiny_pydantic_ai` and is implemented but not yet published.
 
 | Path | Role |
 |---|---|
-| LangGraph / CrewAI / PydanticAI / HTTP adapters | Roadmap (Beta/v1) — see [ROADMAP](./ROADMAP.md) |
+| LangGraph / CrewAI / HTTP adapters | Roadmap (Beta/v1) — see [ROADMAP](./ROADMAP.md) |
 | `integrations/mcp` | MCP tool wrappers around API/Core (roadmap) |
 | `integrations/skills` | Instructional Skill markdown |
 
@@ -353,8 +356,8 @@ These exist to prevent demo failure and architecture drift. Override only via AD
 
 | Constraint | Rule |
 |---|---|
-| Supported adapter | Adapter #1: OpenAI Agents SDK (Core supports more via same interface) |
-| LangGraph, CrewAI, PydanticAI, AutoGen, MCP targets | Out of current scope — ROADMAP |
+| Supported adapters | OpenAI Agents SDK; PydanticAI source package (unreleased). Both implement the same Core port and execute locally. |
+| LangGraph, CrewAI, AutoGen, MCP targets | Out of current scope — ROADMAP |
 
 ---
 
